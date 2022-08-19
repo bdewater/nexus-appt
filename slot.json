@@ -1,0 +1,8 @@
+[ {
+  "locationId" : 5160,
+  "startTimestamp" : "2022-08-22T16:30",
+  "endTimestamp" : "2022-08-22T16:45",
+  "active" : true,
+  "duration" : 15,
+  "remoteInd" : false
+} ]
