@@ -1,0 +1,3 @@
+To run as a cronjob in Render.com
+- Set up correct ENV vars (Redis, Twilio, to/from phone numbers)
+- Cron schedule is UTC, so for running it every 5 minutes during EST waking hours use: */5 0-2,11-23 * * *
