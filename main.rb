@@ -16,7 +16,7 @@ LOCATIONS = {
 }.freeze
 REDIS = Redis.new(url: ENV["REDIS_URL"])
 TWILIO = Twilio::REST::Client.new(ENV["TWILIO_ACCOUNT_SID"], ENV["TWILIO_AUTH_TOKEN"])
-HEADERS = { 
+HEADERS = {
   "Accept-Encoding" => "application/json, text/plain, */*",
   "Accept" => "application/json, text/plain, */*",
   "Accept-Language" => "en-US,en;q=0.9",
@@ -65,14 +65,11 @@ location_slots.each do |slots|
     else
       puts "sending message to #{ENV["TWILIO_TO"]} for #{slot.slice("locationId", "startTimestamp")}"
       start_time = Time.parse(slot["startTimestamp"])
-      message = TWILIO.messages.create(
-        from: ENV["TWILIO_FROM"],
-        to: ENV["TWILIO_TO"],
-        body: "Nexus appt in %{location} at %{time}! Log in at https://ttp.cbp.dhs.gov" % {
-          location: LOCATIONS[slot["locationId"]],
-          time: start_time.strftime("%A %B %d, %I:%M%p")
-        }
-      )
+      body = "Nexus appt in %{location} at %{time}! Log in at https://ttp.cbp.dhs.gov" % {
+        location: LOCATIONS[slot["locationId"]],
+        time: start_time.strftime("%A %B %d, %I:%M%p")
+      }
+      message = TWILIO.messages.create(from: ENV["TWILIO_FROM"], to: ENV["TWILIO_TO"], body: body)
       puts "sent Message SID #{message.uri.delete_suffix(".json").split("/")[-1]}"
 
       expiry = start_time.to_i - Time.now.to_i
